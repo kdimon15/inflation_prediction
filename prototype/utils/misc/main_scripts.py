@@ -104,3 +104,27 @@ async def inference():
             ax.plot(np.array(all_features)[:, x])
         matplotlib.pyplot.savefig(r"D:\Code\bot_for_cfo\data\photo\graph.png")
         matplotlib.pyplot.close(fig)
+
+        try:
+            ARIMA_model = pm.auto_arima(
+                pd.Series(np.array(all_features)[:, 0].tolist()).replace(np.inf, np.nan).fillna(method='ffill').fillna(
+                    method='bfill').reset_index(drop=True),
+                # Первым аргументом передаётся временной ряд, по которому и делается график
+                start_p=2,
+                start_q=2,
+                test='adf',  # use adftest to find optimal 'd'
+                max_p=3, max_q=3,  # maximum p and q
+                m=1,  # frequency of series (if m==1, seasonal is set to FALSE automatically)
+                d=None,  # let model determine 'd'
+                seasonal=True,  # No Seasonality for standard ARIMA
+                trace=True,  # logs
+                error_action='warn',  # shows errors ('ignore' silences these)
+                suppress_warnings=True,
+                stepwise=True)
+
+            # ARIMA_model.summary()
+            ARIMA_model.plot_diagnostics(figsize=(15, 12))
+            matplotlib.pyplot.savefig(r"D:\Code\bot_for_cfo\data\photo\graph2.png")
+            matplotlib.pyplot.close()
+        except ValueError:
+            pass

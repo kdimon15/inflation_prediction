@@ -14,13 +14,12 @@ async def get_doc(call: CallbackQuery):
     print(call.from_user.full_name, call.from_user.id)
     await call.message.edit_text("Сейчас мы вам пришлем анализ индекса потребительских цен за последний месяц")
     await inference()
-    await asyncio.sleep(5)
 
     photo = r"D:\Code\bot_for_cfo\data\photo\graph.png"
     photo2 = r"D:\Code\bot_for_cfo\data\photo\graph2.png"
     await bot.send_photo(chat_id=call.from_user.id, photo=types.InputFile(photo),
                          caption="На графике представлены изменения цен на товары")
-    await asyncio.sleep(6)
+    await asyncio.sleep(1)
     await bot.send_photo(chat_id=call.from_user.id, photo=types.InputFile(photo2),
                          reply_markup=await report_setting(), caption="На графике представлен анализ временного ряда")
 
